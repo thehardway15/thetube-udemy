@@ -8,18 +8,32 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //show the menu title
+        navigationItem.title = "Home"
+        
+        // collection view background
+        collectionView?.backgroundColor = UIColor.white
+        
+        // register class for cell id
+        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    // Number of collection view in home
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
     }
-
+    
+    // cell
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        cell.backgroundColor = UIColor.red
+        return cell
+    }
 
 }
 
