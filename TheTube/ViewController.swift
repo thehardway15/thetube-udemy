@@ -20,7 +20,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         collectionView?.backgroundColor = UIColor.white
         
         // register class for cell id
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView?.register(VideoCell.self, forCellWithReuseIdentifier: "Cell")
     }
     
     // Number of collection view in home
@@ -31,9 +31,58 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     // cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = UIColor.red
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 200)
     }
 
 }
 
+class VideoCell: UICollectionViewCell {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+    
+    let thumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.blue
+        return imageView
+    }()
+    
+    let separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black
+        return view
+    }()
+    
+    func setupView(){
+        addSubview(thumbnailImageView)
+        addSubview(separatorView)
+        
+        // Layout for subview
+        addConstrainsWithFormat(format: "H:|-16-[v0]-16-|", views: thumbnailImageView)
+        addConstrainsWithFormat(format: "V:|-16-[v0]-16-[v1(1)]|", views: thumbnailImageView, separatorView)
+        addConstrainsWithFormat(format: "H:|[v0]|", views: separatorView)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension UIView {
+    func addConstrainsWithFormat(format: String, views: UIView...) {
+        var viewsDictionary = [String:UIView]()
+        for (index, view) in views.enumerated() {
+            let key = "v\(index)"
+            view.translatesAutoresizingMaskIntoConstraints = false
+            viewsDictionary[key] = view
+        }
+        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
+    }
+}
