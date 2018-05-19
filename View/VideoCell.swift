@@ -1,44 +1,12 @@
 //
-//  ViewController.swift
+//  VideoCell.swift
 //  TheTube
 //
-//  Created by Damian Wiśniewski on 13.05.2018.
+//  Created by Damian Wiśniewski on 19.05.2018.
 //  Copyright © 2018 Damian Wiśniewski. All rights reserved.
 //
 
 import UIKit
-
-class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        //show the menu title
-        navigationItem.title = "Home"
-        
-        // collection view background
-        collectionView?.backgroundColor = UIColor.white
-        
-        // register class for cell id
-        collectionView?.register(VideoCell.self, forCellWithReuseIdentifier: "Cell")
-    }
-    
-    // Number of collection view in home
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    // cell
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200)
-    }
-
-}
 
 class VideoCell: UICollectionViewCell {
     
@@ -49,13 +17,17 @@ class VideoCell: UICollectionViewCell {
     
     let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.blue
+        imageView.image = UIImage(named: "porsche")
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
     let userProfileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.green
+        imageView.image = UIImage(named: "internet")
+        imageView.layer.cornerRadius = 22
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -66,17 +38,19 @@ class VideoCell: UICollectionViewCell {
     }()
     
     let titleLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = UIColor.brown
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        let labelView = UILabel()
+        labelView.translatesAutoresizingMaskIntoConstraints = false
+        labelView.text = "Orange Porsche"
+        return labelView
     }()
     
     let subtitleTextView: UITextView = {
-        let text = UITextView()
-        text.backgroundColor = UIColor.orange
-        text.translatesAutoresizingMaskIntoConstraints = false
-        return text
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.text = "Porsche - 2,000,000 views - 2 months ago"
+        textView.textColor = UIColor.lightGray
+        textView.textContainerInset = UIEdgeInsetsMake(0, -4, 0, 0)
+        return textView
     }()
     
     func setupView(){
@@ -114,18 +88,5 @@ class VideoCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension UIView {
-    func addConstrainsWithFormat(format: String, views: UIView...) {
-        var viewsDictionary = [String:UIView]()
-        for (index, view) in views.enumerated() {
-            let key = "v\(index)"
-            view.translatesAutoresizingMaskIntoConstraints = false
-            viewsDictionary[key] = view
-        }
-        
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
 }
