@@ -19,7 +19,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         // collection view background
         collectionView?.backgroundColor = UIColor.white
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = UIColor.red
         
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width - 32, height: view.frame.height))
         titleLabel.text = "Home"
@@ -29,6 +28,20 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         // register class for cell id
         collectionView?.register(VideoCell.self, forCellWithReuseIdentifier: "Cell")
+        
+        // Setup menu bar
+        setupMenuBar()
+    }
+    
+    let menuBar: MenuBar = {
+        let mb = MenuBar()
+        return mb
+    }()
+    
+    private func setupMenuBar() {
+        view.addSubview(menuBar)
+        view.addConstrainsWithFormat(format: "H:|[v0]|", views: menuBar)
+        view.addConstrainsWithFormat(format: "V:|[v0(50)]|", views: menuBar)
     }
     
     // Number of collection view in home
